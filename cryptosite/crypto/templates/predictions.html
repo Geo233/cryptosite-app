@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+
+    <!-- chart canvas element -->
+    <canvas id="predictionChart"></canvas>
+
+    <script>
+        var ctx = document.getElementById('predictionChart').getContext('2d');
+        var predictionChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ dates|safe }},
+                datasets: [{
+                    label: 'BTC Price in EUR',
+                    data: {{ prices|safe }},
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+
+
+<h2>News Sentiment Analysis</h2>
+<ul>
+  {% for title, score in scores %}
+    <li>{{ title }} - {{ score }}</li>
+  {% endfor %}
+
+</ul>
+<h2>Avarage Score</h2>
+    <ul>
+    <li>Average Score: {{avg_score}}</li>
+</ul>
+
+<h2>Price prediction</h2>
+<ul>
+    {% if difference > 0 %}
+        <li>The last day close price was:{{ last_price }}EUR. The next close price is: {{ price }}EUR with an increase of: {{ difference }}EUR than the last day</li>
+    {% else %}
+        <li>The last day close price was:{{ last_price }}EUR. The next close price is: {{ price }}EUR with a decrease of: {{ difference }}EUR than the last day</li>
+    {% endif %}
+</ul>
+
+</body>
+</html>
+
+{% endblock %}

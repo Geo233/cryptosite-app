@@ -1,0 +1,52 @@
+
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+   {% if crypto.Response %}
+      Sorry {{ quote }} is not found. Try again
+   {% endif %}
+   {% for key, value in crypto.DISPLAY.items %}
+
+      <div class="jumbotron jumbotron-fluid">
+         <div class="container">
+         <h1 class="display-4">{{ key }}</h1>
+            <strong>Name</strong>: {{ key }}<br/>
+            <strong>Price</strong>: {{ value.EUR.PRICE }}<br/>
+            <strong>Day High</strong>: {{ value.EUR.HIGHDAY }}<br/>
+            <strong>Day Low</strong>: {{ value.EUR.LOWDAY }}<br/>
+            <strong>Market Cap</strong>: {{ value.EUR.MKTCAP }}<br/>
+         </div>
+      </div>
+
+
+
+{% endfor %}
+
+
+
+<br/><br/>
+
+    <div class="container">
+    <div class="row">
+        {% for x in news %}
+            <div class="col-sm">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="{{x.imageurl}}" alt="{{x.source}}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ x.title }}</h5>
+                        <p class="card-text">{{x.body}}</p>
+                        <a href="{{x.url}}" class="btn btn-secondary">Read More...</a>
+                    </div>
+                </div>
+                <br/>
+            </div>
+        {% empty %}
+            <p>No news found for {{quote}}.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<br/><br/>
+{% endblock %}
